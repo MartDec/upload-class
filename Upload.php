@@ -81,7 +81,7 @@ class Upload {
             $this->upload();
             return TRUE;
         } else {
-            return $this->getError($error);
+            return FALSE;
         }
     }
 

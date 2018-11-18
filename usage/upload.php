@@ -14,5 +14,6 @@ $myUpload = new Upload($args);
 if ($myUpload->launchUpload() === TRUE) {
     echo "Files successfully uploaded";
 } else {
-    echo $myUpload->launchUpload();
+    $error = $myUpload->getFileProperty('error');
+    echo $myUpload->getError($error);
 }
