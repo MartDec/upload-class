@@ -10,18 +10,18 @@ class Upload {
         $this->targetPath = $args['path'];
     }
 
-    public function getFile () {
+    public function getFile () { // return all the properies of the file(s) to upload
         return $_FILES[$this->file];
     }
 
-    public function getFileProperty ($property, $increm = 0) {
+    public function getFileProperty ($property, $increm = 0) { // return one property of the file(s)
         $file = $this->getFile();
         return $file[$property][$increm];
     }
 
-    public function getError ($error) {
+    public function getError ($error) { // return errors that occured during the upload
         switch ($error) {
-            case 0:
+            case 0: // if there is no error
                 return FALSE;
                 break;
 
@@ -59,7 +59,7 @@ class Upload {
         }
     }
 
-    public function upload () {
+    public function upload () { // treat the upload
         $files = $this->getFile();
         $filesCount = count($files['name']);
 
@@ -75,8 +75,9 @@ class Upload {
         }
     }
 
-    public function launchUpload () {
+    public function launchUpload () { // launch the upload or handle errors
         $error = $this->getFileProperty('error');
+        
         if (!$this->getError($error)) {            
             $this->upload();
             return TRUE;
