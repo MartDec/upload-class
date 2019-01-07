@@ -14,7 +14,7 @@ class Upload {
         return $_FILES[$this->file];
     }
 
-    public function getFileProperty ($property, $increm = 0) { // return one property of the file(s)
+    public function getFileProperty ($property, $increm = 0/* increm stand for multiple upload */) { // return one property of the file(s)
         $file = $this->getFile();
         return $file[$property][$increm];
     }
@@ -22,7 +22,7 @@ class Upload {
     public function getError ($error) { // return errors that occured during the upload
         switch ($error) {
             case 0: // if there is no error
-                return FALSE;
+                return "Files successfully uploaded";
                 break;
 
             case 1:
@@ -69,21 +69,19 @@ class Upload {
             $fileTmp = $this->getFileProperty('tmp_name', $i);
             $path = $this->targetPath . $fileName;
 
-            if(in_array($fileExt, $this->allowedExtension)) {
+            if(in_array($fileExt, $this->allowedExtension, true) === true) {
                 move_uploaded_file($fileTmp, $path);
+            } else {
+                echo 'Files extensions are wrong or there are no files to upload';
             }
         }
     }
 
-    public function launchUpload () { // launch the upload or handle errors
-        $error = $this->getFileProperty('error');
+    public function launchUpload () { // launch the upload or handle errors        
+        $error = $this->getFileProperty('error', $i);
         
-        if (!$this->getError($error)) {            
-            $this->upload();
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+        $this->upload();
+        echo $this->getError($error);
     }
 
 }
